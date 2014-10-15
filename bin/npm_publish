@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+
+#
+
+set -u
+set -e
+
+names=( da_river topogo da_check ok_slang www_applet dev_watch )
+
+if [ $1 = '-l' ]
+then
+  for i in "${names[@]}"
+  do
+    echo $i
+  done
+  exit 0
+fi
+
+for i in "${names[@]}"
+do
+  cd "/apps/gems/$i"
+  ver="$(underscore extract -i package.json version)";
+  new_ver="$(npm info $i version)";
+  if [ -n "$( echo "$ver" | grep "$new_ver" )" ]
+  then
+    echo "Already published: $i: $ver"
+    git status
+  else
+    echo "Publishing: $new_ver"
+    npm publish && git push && git push --tags
+  fi;
+done
+
+

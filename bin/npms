@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+set -u -e -o pipefail
+
+
+#!/usr/bin/env node
+# -*- js   -*-
+#
+find -L . -maxdepth 2 -type f -name package.json -printf '%h\n'
+
